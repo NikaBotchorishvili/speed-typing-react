@@ -12,7 +12,7 @@ import "./assets/css/style.css";
 function App() {
 	const [text, setText] = useState("");
 	const [timeRemaining, setTimeRemaining] = useState(5);
-	const [finished, setFinished] = useState(false);
+	const [started, setStarted] = useState(false);
 
 	function handleChange(event) {
 		const { value } = event.target;
@@ -23,12 +23,15 @@ function App() {
 	function countWords() {
 		return text.split(" ").filter((word) => word !== "").length;
 	}
-	console.log("reloaded")
+
+	function handleStartGame() {
+		setStarted((prevStarted) => !prevStarted)
+	}
 	useEffect(() => {
 		if (timeRemaining == 0) {
-			setFinished(true);
+			setStarted(false);
 		} else {
-			if (finished == false) {
+			if (started) {
 				const timeout = setTimeout(() => {
 					setTimeRemaining(prevTimeRemaining => prevTimeRemaining - 1);
 				}, 1000);
@@ -36,7 +39,7 @@ function App() {
 				return () => (clearTimeout(timeout))
 			}
 		}
-	}, [timeRemaining]);
+	}, [timeRemaining, started]);
 	return (
 		<div className="container">
 			<div className="main">
@@ -49,7 +52,7 @@ function App() {
 
 				<div className="submission">
 					<h3>Time Remaining: {timeRemaining}</h3>
-					<button className="submit">Start</button>
+					<button className="submit" onClick={handleStartGame}>Start</button>
 					<h4>Word Count: {countWords()}</h4>
 				</div>
 			</div>
