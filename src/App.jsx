@@ -6,9 +6,9 @@ function App() {
 	const [timeRemaining, setTimeRemaining] = useState(5);
 	const [started, setStarted] = useState(false);
 	const [wordCount, setWordCount] = useState(0);
+
 	function handleChange(event) {
 		const { value } = event.target;
-
 		setText(value);
 	}
 
@@ -17,7 +17,7 @@ function App() {
 	}
 
 	function handleStartGame() {
-		setText("")
+		setText("");
 		setStarted((prevStarted) => !prevStarted);
 		setTimeRemaining(5);
 	}
@@ -47,12 +47,17 @@ function App() {
 						style={{ background: started ? "#00b800" : "gray" }}
 						value={text}
 						onChange={handleChange}
+						disabled={!started}
 					/>
 				</div>
 
 				<div className="submission">
 					<h3>Time Remaining: {timeRemaining}</h3>
-					<button className="submit" onClick={started === false && handleStartGame}>
+					<button
+						disabled={started}
+						className="submit"
+						onClick={handleStartGame}
+					>
 						Start
 					</button>
 					<h4>Word Count: {wordCount !== 0 ? countWords() : "???"}</h4>
